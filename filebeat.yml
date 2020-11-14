@@ -1,12 +1,21 @@
+#=========================== Filebeat inputs =============================
 filebeat.inputs:
-- type: log
-  enabled: true
-  paths:
-    - /usr/share/filebeat/mylog/*.log
+  # 收集nginx日志
+  - type: log
+    enabled: true
+    paths:
+      - /data_ssd2/logs/nginx/*.log
+    # 日志是json开启这个
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    json.add_error_key: true
 
-output.logstash:
-  hosts: ["logstash:5044"]
+#-------------------------- Redis output ------------------------------
+output.redis:
+  hosts: ["host"]   #输出到redis的机器
+  password: "password"
+  key: "nginx_logs"   #redis中日志数据的key值ֵ
+  db: 1
+  timeout: 10
 
-processors:
-  - add_docker_metadata:
-      host: "unix:///host_docker/docker.sock"
+

@@ -43,6 +43,14 @@ services:
       options:
         max-size: "10m"
         max-file: "50"
+  redis:
+    image: redis:5.0.0
+    container_name: redis
+    command: redis-server --requirepass 123456
+    ports:
+      - "16379:6379"
+    volumes:
+      - ./data:/data
   logstash:
     container_name: logstash
     image: logstash:7.5.0
@@ -95,3 +103,5 @@ services:
       options:
         max-size: "10m"
         max-file: "50"
+
+
